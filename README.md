@@ -1,4 +1,5 @@
 Generates Ascii art from a csv file containing longitude and latitude coordinates (as 3rd and 4th columns).
+
 Parameters:
   Filepath: will default to the zip file in the project if not specified.
   Width: Width of the image to draw; cannot be negative. Will default to 200 if not specified
