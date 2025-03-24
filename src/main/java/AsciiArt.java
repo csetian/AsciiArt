@@ -18,15 +18,14 @@ public class AsciiArt {
 
     private static int WIDTH ;  // Width of the grid (number of columns)
     private static int HEIGHT; // Height of the grid (number of rows)
-
     private static String FILE_PATH;
-
     private static String DRAW_CHAR;
+
+    //Default values could be moved to a config file rather than being hardcoded.
     private static final int DEFAULT_WIDTH = 200;  // Width of the grid (number of columns)
     private static final int DEFAULT_HEIGHT = 400; // Height of the grid (number of rows)
     private static final String DEFAULT_FILE_PATH = "ukpostcodes.csv.zip";
     private static final String DEFAULT_DRAW_CHAR = "*";
-
 
     public static void main(String[] args) {
         //Parse arguments
@@ -71,11 +70,9 @@ public class AsciiArt {
                 WIDTH, HEIGHT,
                 BufferedImage.TYPE_INT_RGB);
         Graphics graphics = bufferedImage.getGraphics();
-
         Graphics2D graphics2D = (Graphics2D) graphics;
         graphics2D.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
                 RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-
 
         for(UkPostcode postcode : postcodes) {
             // Normalize longitude and latitude to fit the grid
@@ -83,6 +80,7 @@ public class AsciiArt {
             Double latitude = postcode.getLatitude();
             int x = (int) ((longitude - minLongitude) / (maxLongitude - minLongitude) * (WIDTH - 1));
             int y = HEIGHT - 1 - (int) ((latitude - minLatitude) / (maxLatitude - minLatitude) * (HEIGHT - 1));
+            // Mark the grid with a symbol (e.g., '*')
             graphics2D.drawString(DRAW_CHAR, x, y);
         }
 
@@ -119,6 +117,8 @@ public class AsciiArt {
         }
     }
 
+    // this assumes all files come in the same format of
+    // id, postcode, longitude, latitude
     public static List<List<String>> getFile(String filePath) throws IOException {
         List<List<String>> records;
         if (filePath.endsWith(".zip")) {
